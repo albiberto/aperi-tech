@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        
+        <!-- implicit-using-directives: C# 10.0 -->
+        <!-- DOC: https://docs.microsoft.com/en-us/dotnet/core/tutorials/top-level-templates#implicit-using-directives -->
+        <!-- DOC: https://devblogs.microsoft.com/dotnet/welcome-to-csharp-10/#implicit-usings-->
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+</Project>

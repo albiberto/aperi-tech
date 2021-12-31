@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AperiTech", "AperiTech\AperiTech.csproj", "{DB96E07E-A8B0-4EF5-B991-417C5E6A346F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AperiTech.Domain", "AperiTech.Domain\AperiTech.Domain.csproj", "{7570A3CA-D4CE-4DBA-B82E-D78DD24FD799}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB96E07E-A8B0-4EF5-B991-417C5E6A346F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB96E07E-A8B0-4EF5-B991-417C5E6A346F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB96E07E-A8B0-4EF5-B991-417C5E6A346F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB96E07E-A8B0-4EF5-B991-417C5E6A346F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7570A3CA-D4CE-4DBA-B82E-D78DD24FD799}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7570A3CA-D4CE-4DBA-B82E-D78DD24FD799}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7570A3CA-D4CE-4DBA-B82E-D78DD24FD799}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7570A3CA-D4CE-4DBA-B82E-D78DD24FD799}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
