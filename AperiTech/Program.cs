@@ -55,7 +55,6 @@ static void SeeYouSoon()
     Console.Clear();
 }
 
-static int GetDelay()
-{
-    return Delay;
-}
+// expression-bodied members: C# 6.0
+// DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-operator#expression-body-definition
+static int GetDelay() => Delay;

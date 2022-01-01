@@ -1,31 +1,39 @@
-namespace AperiTech.Core
+// file-scoped namespaces: C# 10.0
+// NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-10#file-scoped-namespace-declaration
+// DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/file-scoped-namespaces
+// DOC: https://devblogs.microsoft.com/dotnet/welcome-to-csharp-10/#file-scoped-namespaces
+
+namespace AperiTech.Core;
+
+using Abstract;
+using Bogus;
+using Domain;
+
+public class Painter : IPainter
 {
-    using Abstract;
-    using Bogus;
-    using Domain;
+    // expression-bodied members: C# 6.0
+    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-operator#expression-body-definition
+    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/properties#property-syntax
+    private static IEnumerable<string> Colors => new HashSet<string> {"red", "blue", "yellow"};
 
-    public class Painter : IPainter
+    // omit the type in a new expression: C# 9.0
+    // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9#fit-and-finish-features
+    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/new-operator
+    private readonly Faker _faker = new();
+
+    public void Paint(IEnumerable<Shape> shapes)
     {
-        private static IEnumerable<string> Colors
+        // using declaration: C# 8.0
+        // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#using-declarations
+        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement
+        using var enumerator = shapes.GetEnumerator();
+        while (enumerator.MoveNext())
         {
-            get { return new HashSet<string>() {"red", "blue", "yellow"}; }
-        }
+            var shape = enumerator.Current;
+            shape.Color = _faker.PickRandom(Colors).OrNull(_faker, 0.2f);
 
-        private readonly Faker _faker = new Faker();
-
-        public void Paint(IEnumerable<Shape> shapes)
-        {
-            using (var enumerator = shapes.GetEnumerator())
-            {
-                while (enumerator.MoveNext())
-                {
-                    var shape = enumerator.Current;
-                    shape.Color = _faker.PickRandom(Colors).OrNull(_faker, 0.2f);
-
-                    shape.WriteToConsole("Painter");
-                    Thread.Sleep(Settings.Delay);
-                }
-            }
+            shape.WriteToConsole("Painter");
+            Thread.Sleep(Settings.Delay);
         }
     }
 }
