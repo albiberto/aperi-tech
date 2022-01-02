@@ -4,20 +4,41 @@
 // DOC: https://docs.microsoft.com/en-us/dotnet/core/tutorials/top-level-templates#use-the-new-program-style
 
 using AperiTech;
+using AperiTech.Abstract;
 using AperiTech.Core;
+using Bogus;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 // static imports: C# 6.0
 // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-directive
 using static AperiTech.Settings;
 
+// dependency injection: dotnet Core 1.x
+// DOC: https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection?view=aspnetcore-6.0
+// DOC: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0
+// default host builder, web application builder: .NET 6
+// DOC: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-6.0
+// DOC: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0
+using var host = Host.CreateDefaultBuilder()
+    .ConfigureServices(services =>
+    {
+        services.AddSingleton<IProvider, Provider>();
+        services.AddSingleton<IPainter, Painter>();
+        services.AddSingleton<IChecker, Checker>();
+        services.AddSingleton<IPrinter, Printer>();
+
+        services.AddScoped<Faker>();
+
+        services.AddTransient<App>();
+    })
+    .Build();
+
 // implicitly typed local variables (var): C# 3.0
 // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/var
-var provider = new Provider();
-var painter = new Painter();
-var checker = new Checker();
-var printer = new Printer();
-
-var app = new App(provider, painter, checker, printer);
+// resolve a service at app start up: dotnet Core 1.x
+// DOC: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0#resolve-a-service-at-app-start-up
+var app = host.Services.GetRequiredService<App>();
 
 Welcome();
 app.Run();

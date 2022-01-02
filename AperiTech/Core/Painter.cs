@@ -16,10 +16,12 @@ public class Painter : IPainter
     // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/properties#property-syntax
     private static IEnumerable<string> Colors => new HashSet<string> {"red", "blue", "yellow"};
 
-    // omit the type in a new expression: C# 9.0
-    // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9#fit-and-finish-features
-    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/new-operator
-    private readonly Faker _faker = new();
+    private readonly Faker _faker;
+
+    public Painter(Faker faker)
+    {
+        _faker = faker;
+    }
 
     public void Paint(IEnumerable<Shape> shapes)
     {
