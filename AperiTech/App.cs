@@ -6,6 +6,8 @@
 namespace AperiTech;
 
 using Abstract;
+using Microsoft.Extensions.Options;
+using Options;
 
 public class App
 {
@@ -19,12 +21,16 @@ public class App
     private readonly IChecker _checker;
     private readonly IPrinter _printer;
 
-    public App(IProvider provider, IPainter painter, IChecker checker, IPrinter printer)
+    private readonly int _delay;
+
+    public App(IProvider provider, IPainter painter, IChecker checker, IPrinter printer, IOptions<AppOptions> options)
     {
         _provider = provider;
         _painter = painter;
         _checker = checker;
         _printer = printer;
+
+        _delay = options.Value.Settings.Delay;
     }
 
     public void Run()
@@ -46,7 +52,7 @@ public class App
         Complete(Printer);
     }
 
-    private static void CountDown(string message)
+    private void CountDown(string message)
     {
         Console.WriteLine();
         Console.Write("{0} launching ", message);
@@ -54,7 +60,7 @@ public class App
         foreach (var _ in Enumerable.Range(0, 3))
         {
             Console.Write(".");
-            Thread.Sleep(Settings.Delay);
+            Thread.Sleep(_delay);
         }
 
         Console.WriteLine();
@@ -66,7 +72,7 @@ public class App
         Console.WriteLine();
     }
 
-    private static void Complete(string message)
+    private void Complete(string message)
     {
         Console.WriteLine();
         // string interpolation: C# 6.0
@@ -76,6 +82,6 @@ public class App
         Console.WriteLine("{0} completed at: {1:O}", message, DateTime.Now);
         Console.WriteLine();
 
-        Thread.Sleep(Settings.Delay * 2);
+        Thread.Sleep(_delay * 2);
     }
 }

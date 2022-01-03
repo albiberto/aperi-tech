@@ -7,28 +7,28 @@ namespace AperiTech.Core;
 
 using Abstract;
 using Domain;
+using Microsoft.Extensions.Configuration;
 
 public class Checker : IChecker
 {
-    // auto-property initializers: C# 6.0
-    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/properties#property-syntax
-    private static IEnumerable<int> Angles { get; } = new HashSet<int> {0, 4};
-
-    // expression-bodied members: C# 6.0
-    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-operator#expression-body-definition
-    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/properties#property-syntax
-    private static IEnumerable<string> Colors => new HashSet<string> {"red", "blue", "yellow"};
+    private readonly int _delay;
 
     private readonly IEnumerable<Shape> _validShapes;
 
-    public Checker()
+    public Checker(IConfiguration configuration)
     {
+        _delay = configuration.GetValue<int>("AppSettings:Delay");
+        var total = configuration.GetValue<int>("AppSettings:Total");
+
+        var angles = new[] {configuration.GetValue<int>("AppOptions:Angles:0"), configuration.GetValue<int>("AppOptions:Angles:1")};
+        var colors = new[] {configuration["AppOptions:Colors:0"], configuration["AppOptions:Colors:1"], configuration["AppOptions:Colors:2"]};
+
         // language integrated query (LINQ): C# 3.0
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/
         _validShapes =
-            from id in Enumerable.Range(0, Settings.Total)
-            from count in Angles
-            from color in Colors
+            from id in Enumerable.Range(0, total)
+            from count in angles
+            from color in colors
             // object and collection initializers: C# 3.0
             // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/object-and-collection-initializers
             select new Shape
@@ -50,7 +50,7 @@ public class Checker : IChecker
 
             shape.WriteToConsole("Checker");
             acc.Add(shape);
-            Thread.Sleep(Settings.Delay);
+            Thread.Sleep(_delay);
             break;
         }
 

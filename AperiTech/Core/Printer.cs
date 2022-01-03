@@ -7,9 +7,18 @@ namespace AperiTech.Core;
 
 using Abstract;
 using Domain;
+using Microsoft.Extensions.Options;
+using Options;
 
 public class Printer : IPrinter
 {
+    private readonly AppOptions _options;
+
+    public Printer(IOptions<AppOptions> options)
+    {
+        _options = options.Value;
+    }
+
     public void Print(IEnumerable<Shape> shapes)
     {
         // local functions: C# 7.0
@@ -30,7 +39,7 @@ public class Printer : IPrinter
 
             Console.WriteLine();
 
-            Thread.Sleep(Settings.Delay);
+            Thread.Sleep(_options.Settings.Delay);
         }
     }
 

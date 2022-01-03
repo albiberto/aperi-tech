@@ -8,19 +8,18 @@ namespace AperiTech.Core;
 using Abstract;
 using Bogus;
 using Domain;
+using Microsoft.Extensions.Options;
+using Options;
 
 public class Painter : IPainter
 {
-    // expression-bodied members: C# 6.0
-    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-operator#expression-body-definition
-    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/properties#property-syntax
-    private static IEnumerable<string> Colors => new HashSet<string> {"red", "blue", "yellow"};
-
     private readonly Faker _faker;
+    private readonly AppOptions _options;
 
-    public Painter(Faker faker)
+    public Painter(Faker faker, IOptions<AppOptions> options)
     {
         _faker = faker;
+        _options = options.Value;
     }
 
     public void Paint(IEnumerable<Shape> shapes)
@@ -32,10 +31,10 @@ public class Painter : IPainter
         while (enumerator.MoveNext())
         {
             var shape = enumerator.Current;
-            shape.Color = _faker.PickRandom(Colors).OrNull(_faker, 0.2f);
+            shape.Color = _faker.PickRandom(_options.Shapes.Colors).OrNull(_faker, 0.2f);
 
             shape.WriteToConsole("Painter");
-            Thread.Sleep(Settings.Delay);
+            Thread.Sleep(_options.Settings.Delay);
         }
     }
 }

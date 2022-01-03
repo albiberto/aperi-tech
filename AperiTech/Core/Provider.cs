@@ -8,37 +8,37 @@ namespace AperiTech.Core;
 using Abstract;
 using Bogus;
 using Domain;
+using Microsoft.Extensions.Options;
+using Options;
 
 public class Provider : IProvider
 {
-    // auto-property initializers: C# 6.0
-    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/properties#property-syntax
-    private static IEnumerable<int> Angles { get; } = new HashSet<int> {0, 4};
-
     private readonly Faker _faker;
+    private readonly AppOptions _options;
 
-    public Provider(Faker faker)
+    public Provider(Faker faker, IOptions<AppOptions> options)
     {
         _faker = faker;
+        _options = options.Value;
     }
 
     public IEnumerable<Shape> Get()
     {
         var acc = new List<Shape>();
 
-        foreach (var index in Enumerable.Range(0, Settings.Total))
+        foreach (var index in Enumerable.Range(0, _options.Settings.Total))
         {
             // object and collection initializers: C# 3.0
             // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/object-and-collection-initializers
             var shape = new Shape
             {
                 Id = index,
-                Angles = _faker.PickRandom(Angles)
+                Angles = _faker.PickRandom(_options.Shapes.Angles)
             };
 
             shape.WriteToConsole("Provider");
             acc.Add(shape);
-            Thread.Sleep(Settings.Delay);
+            Thread.Sleep(_options.Settings.Delay);
         }
 
         return acc;

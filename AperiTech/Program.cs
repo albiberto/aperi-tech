@@ -6,13 +6,12 @@
 using AperiTech;
 using AperiTech.Abstract;
 using AperiTech.Core;
+using AperiTech.Options;
 using Bogus;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-// static imports: C# 6.0
-// DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-directive
-using static AperiTech.Settings;
+using Microsoft.Extensions.Options;
 
 // dependency injection: dotnet Core 1.x
 // DOC: https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection?view=aspnetcore-6.0
@@ -28,6 +27,21 @@ using var host = Host.CreateDefaultBuilder()
         services.AddSingleton<IChecker, Checker>();
         services.AddSingleton<IPrinter, Printer>();
 
+        // configuration in .NET: dotnet Core 1.x
+        // DOC: https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration#basic-example
+        // DOC: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0
+        var config = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", false, true)
+            .Build();
+
+        // options pattern: dotnet Core 1.0
+        // DOC: https://docs.microsoft.com/en-us/dotnet/core/extensions/options#optionsbuilder-api
+        // DOC: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-6.0#optionsbuilder-api
+        services
+            .AddOptions<AppOptions>()
+            .Bind(config.GetSection("AppOptions"));
+
         services.AddScoped<Faker>();
 
         services.AddTransient<App>();
@@ -39,13 +53,14 @@ using var host = Host.CreateDefaultBuilder()
 // resolve a service at app start up: dotnet Core 1.x
 // DOC: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0#resolve-a-service-at-app-start-up
 var app = host.Services.GetRequiredService<App>();
+var options = host.Services.GetService<IOptions<AppOptions>>();
 
 Welcome();
 app.Run();
 Wait();
 SeeYouSoon();
 
-static void Welcome()
+void Welcome()
 {
     Console.WriteLine("Welcome to AperiTech");
     Console.WriteLine("Renew your .NET");
@@ -55,7 +70,7 @@ static void Welcome()
     Thread.Sleep(GetDelay() * 2);
 }
 
-static void Wait()
+void Wait()
 {
     Console.WriteLine("Press any key to continue.");
     Console.ReadKey();
@@ -63,7 +78,7 @@ static void Wait()
     Thread.Sleep(GetDelay());
 }
 
-static void SeeYouSoon()
+void SeeYouSoon()
 {
     Console.WriteLine("See you soon!");
     Console.WriteLine();
@@ -78,4 +93,4 @@ static void SeeYouSoon()
 
 // expression-bodied members: C# 6.0
 // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-operator#expression-body-definition
-static int GetDelay() => Delay;
+int GetDelay() => options.Value.Settings.Delay;
