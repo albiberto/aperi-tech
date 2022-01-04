@@ -7,28 +7,25 @@ namespace AperiTech.Core;
 
 using Abstract;
 using Domain;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using Options;
 
 public class Checker : IChecker
 {
-    private readonly int _delay;
+    private readonly AppOptions _options;
 
     private readonly IEnumerable<Shape> _validShapes;
 
-    public Checker(IConfiguration configuration)
+    public Checker(IOptions<AppOptions> options)
     {
-        _delay = configuration.GetValue<int>("AppSettings:Delay");
-        var total = configuration.GetValue<int>("AppSettings:Total");
-
-        var angles = new[] {configuration.GetValue<int>("AppOptions:Angles:0"), configuration.GetValue<int>("AppOptions:Angles:1")};
-        var colors = new[] {configuration["AppOptions:Colors:0"], configuration["AppOptions:Colors:1"], configuration["AppOptions:Colors:2"]};
+        _options = options.Value;
 
         // language integrated query (LINQ): C# 3.0
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/
         _validShapes =
-            from id in Enumerable.Range(0, total)
-            from count in angles
-            from color in colors
+            from id in Enumerable.Range(0, _options.Settings.Total)
+            from count in _options.Shapes.Angles
+            from color in _options.Shapes.Colors
             // object and collection initializers: C# 3.0
             // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/object-and-collection-initializers
             select new Shape
@@ -50,7 +47,7 @@ public class Checker : IChecker
 
             shape.WriteToConsole("Checker");
             acc.Add(shape);
-            Thread.Sleep(_delay);
+            Thread.Sleep((_options.Settings.Delay));
             break;
         }
 
