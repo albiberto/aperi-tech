@@ -40,7 +40,8 @@ using var host = Host.CreateDefaultBuilder()
         // DOC: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-6.0#optionsbuilder-api
         services
             .AddOptions<AppOptions>()
-            .Bind(config.GetSection("AppOptions"));
+            .Bind(config.GetSection("AppOptions"))
+            .ValidateDataAnnotations();
 
         services.AddScoped<Faker>();
 
