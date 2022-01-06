@@ -4,11 +4,8 @@
 // DOC: https://docs.microsoft.com/en-us/dotnet/core/tutorials/top-level-templates#use-the-new-program-style
 
 using AperiTech;
-using AperiTech.Abstract;
-using AperiTech.Core;
+using AperiTech.IoC;
 using AperiTech.Options;
-using Bogus;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -22,28 +19,8 @@ using Microsoft.Extensions.Options;
 using var host = Host.CreateDefaultBuilder()
     .ConfigureServices(services =>
     {
-        services.AddSingleton<IProvider, Provider>();
-        services.AddSingleton<IPainter, Painter>();
-        services.AddSingleton<IChecker, Checker>();
-        services.AddSingleton<IPrinter, Printer>();
-
-        // configuration in .NET: dotnet Core 1.x
-        // DOC: https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration#basic-example
-        // DOC: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0
-        var config = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", false, true)
-            .Build();
-
-        // options pattern: dotnet Core 1.0
-        // DOC: https://docs.microsoft.com/en-us/dotnet/core/extensions/options#optionsbuilder-api
-        // DOC: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-6.0#optionsbuilder-api
-        services
-            .AddOptions<AppOptions>()
-            .Bind(config.GetSection("AppOptions"))
-            .ValidateDataAnnotations();
-
-        services.AddScoped<Faker>();
+        services.AddCoreServices();
+        services.AddOptionsAndFakerServices();
 
         services.AddTransient<App>();
     })
