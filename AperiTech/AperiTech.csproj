@@ -3,11 +3,18 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
-        
+
         <!-- implicit-using-directives: C# 10.0 -->
         <!-- DOC: https://docs.microsoft.com/en-us/dotnet/core/tutorials/top-level-templates#implicit-using-directives -->
         <!-- DOC: https://devblogs.microsoft.com/dotnet/welcome-to-csharp-10/#implicit-usings-->
         <ImplicitUsings>enable</ImplicitUsings>
+
+        <!-- nullable-reference-types: C# 8.0 -->
+        <!-- NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#nullable-reference-types -->
+        <!-- DOC: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references -->
+        <!-- DOC: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-warnings -->
+        <!-- DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/nullable-reference-types#create-the-application-and-enable-nullable-reference-types -->
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
