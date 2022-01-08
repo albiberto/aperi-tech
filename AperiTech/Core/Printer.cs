@@ -54,12 +54,16 @@ public class Printer : IPrinter
             case 0:
                 message = string.Equals(shape.Color, "Red", StringComparison.OrdinalIgnoreCase)
                     ? $"ID={shape.Id} CIRCLE is red"
-                    : $"ID={shape.Id} CIRCLE is {shape.Color.ToUpperInvariant()}";
+                    // nullable reference types (!): C# 8.0
+                    // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#nullable-reference-types
+                    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-warnings#possible-dereference-of-null
+                    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references#nullable-variable-annotations 
+                    : $"ID={shape.Id} CIRCLE is {shape.Color!.ToUpperInvariant()}";
                 break;
             case 4:
                 message = string.Equals(shape.Color, "REd", StringComparison.OrdinalIgnoreCase)
                     ? $"ID={shape.Id} SQUARE is red"
-                    : $"ID={shape.Id} SQUARE is {shape.Color.ToUpperInvariant()}";
+                    : $"ID={shape.Id} SQUARE is {shape.Color!.ToUpperInvariant()}";
                 break;
             default:
                 // nameof operator: C# 6.0

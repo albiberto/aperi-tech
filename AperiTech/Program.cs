@@ -70,5 +70,18 @@ void SeeYouSoon()
 }
 
 // expression-bodied members: C# 6.0
-// DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-operator#expression-body-definition
-int GetDelay() => options.Value.Settings.Delay;
+// DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-operator#expression-body-definition// null propagator (?.): C# 6.0
+// DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/member-access-operators#null-conditional-operators--and-
+// coalescing operator (??): C# 1.0
+// DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator
+// Enhanced coalescing operator (?? throw new exception): C# 7.0
+// DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator#examples
+// null coalescing assignment (??=): C# 8.0
+// NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#null-coalescing-assignment
+// DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator
+int GetDelay()
+{
+    int? delay = options?.Value?.Settings.Delay;
+    delay ??= 250;
+    return delay ?? throw new ArgumentException("Delay cannot be empty!");
+}
