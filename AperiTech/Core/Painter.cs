@@ -22,19 +22,24 @@ public class Painter : IPainter
         _options = options.Value;
     }
 
-    public void Paint(IEnumerable<Shape> shapes)
+    public IEnumerable<Shape> Paint(IEnumerable<Shape> shapes)
     {
+        var acc = new List<Shape>();
+
         // using declaration: C# 8.0
         // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#using-declarations
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement
         using var enumerator = shapes.GetEnumerator();
         while (enumerator.MoveNext())
         {
-            var shape = enumerator.Current;
-            shape.Color = _faker.PickRandom(_options.Shapes.Colors).OrNull(_faker, 0.2f);
+            var current = enumerator.Current;
+            var shape = new Shape(current.Id, current.Angles, _faker.PickRandom(_options.Shapes.Colors).OrNull(_faker, 0.2f));
 
             shape.WriteToConsole("Painter");
+            acc.Add(shape);
             Thread.Sleep(_options.Settings.Delay);
         }
+
+        return acc;
     }
 }

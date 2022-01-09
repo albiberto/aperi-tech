@@ -7,14 +7,22 @@ namespace AperiTech.Domain;
 
 public class Shape
 {
-    public int Id { get; set; }
-    public int Angles { get; set; }
-
-    // nullable reference types (?): C# 8.0
+    // Nullable reference types (?): C# 8.0
     // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types
     // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references
     // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/nullable-reference-types
-    public string? Color { get; set; }
+    // default literal expressions: C# 7.1
+    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/default#default-literal
+    public Shape(int id, int angles, string? color = default)
+    {
+        Id = id;
+        Angles = angles;
+        Color = color ?? string.Empty;
+    }
+
+    public int Id { get; }
+    public int Angles { get; }
+    public string Color { get; }
 
     // expression-bodied members: C# 6.0
     // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-operator#expression-body-definition

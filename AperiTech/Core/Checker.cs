@@ -26,14 +26,7 @@ public class Checker : IChecker
             from id in Enumerable.Range(0, _options.Settings.Total)
             from count in _options.Shapes.Angles
             from color in _options.Shapes.Colors
-            // object and collection initializers: C# 3.0
-            // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/object-and-collection-initializers
-            select new Shape
-            {
-                Id = id,
-                Angles = count,
-                Color = color
-            };
+            select new Shape(id, count, color);
     }
 
     public IEnumerable<Shape> Check(IEnumerable<Shape> shapes)

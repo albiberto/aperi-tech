@@ -28,13 +28,7 @@ public class Provider : IProvider
 
         foreach (var index in Enumerable.Range(0, _options.Settings.Total))
         {
-            // object and collection initializers: C# 3.0
-            // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/object-and-collection-initializers
-            var shape = new Shape
-            {
-                Id = index,
-                Angles = _faker.PickRandom(_options.Shapes.Angles)
-            };
+            var shape = new Shape(index, _faker.PickRandom(_options.Shapes.Angles));
 
             shape.WriteToConsole("Provider");
             acc.Add(shape);

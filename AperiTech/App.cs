@@ -40,11 +40,11 @@ public class App
         Complete(Provider);
 
         CountDown(Painter);
-        _painter.Paint(shapes);
+        var painted = _painter.Paint(shapes);
         Complete(Painter);
 
         CountDown(Checker);
-        var valid = _checker.Check(shapes);
+        var valid = _checker.Check(painted);
         Complete(Checker);
 
         CountDown(Printer);
