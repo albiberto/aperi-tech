@@ -24,6 +24,15 @@ public class Shape
     public int Angles { get; }
     public string Color { get; }
 
+    // Tuples and deconstruction: C# 7.0
+    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-tuples#tuple-assignment-and-deconstruction
+    public void Deconstruct(out int id, out int angles, out string color)
+    {
+        id = Id;
+        angles = Angles;
+        color = Color;
+    }
+
     // expression-bodied members: C# 6.0
     // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-operator#expression-body-definition
     // string interpolation: C# 6.0
