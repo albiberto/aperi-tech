@@ -5,7 +5,7 @@
 
 namespace AperiTech.Domain;
 
-public class Shape
+public class Shape : IEquatable<Shape>
 {
     // Nullable reference types (?): C# 8.0
     // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types
@@ -32,6 +32,36 @@ public class Shape
         angles = Angles;
         color = Color;
     }
+
+    public bool Equals(Shape? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Id == other.Id && Angles == other.Angles && string.Equals(Color, other.Color, StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        return obj.GetType() == GetType() && Equals((Shape) obj);
+    }
+
+    public override int GetHashCode()
+    {
+        var hashCode = new HashCode();
+        hashCode.Add(Id);
+        hashCode.Add(Angles);
+        hashCode.Add(Color, StringComparer.InvariantCultureIgnoreCase);
+        return hashCode.ToHashCode();
+    }
+
+    // operator overloading: C# 1.0
+    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/operator-overloading
+    // equality operators: C# 1.0
+    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators
+    public static bool operator ==(Shape? left, Shape? right) => Equals(left, right);
+    public static bool operator !=(Shape? left, Shape? right) => !Equals(left, right);
 
     // expression-bodied members: C# 6.0
     // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-operator#expression-body-definition

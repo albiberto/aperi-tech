@@ -36,7 +36,11 @@ public class Checker : IChecker
         foreach (var shape in shapes)
         foreach (var validShape in _validShapes)
         {
-            if (validShape.Id != shape.Id || validShape.Angles != shape.Angles || validShape.Color != shape.Color) continue;
+            // equality comparison: C# 1.0
+            // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/equality-comparisons
+            // equality operators: C# 1.0
+            // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators
+            if (!validShape.Equals(shape) && validShape != shape) continue;
 
             shape.WriteToConsole("Checker");
             acc.Add(shape);
