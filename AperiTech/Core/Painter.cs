@@ -32,10 +32,10 @@ public class Painter : IPainter
         using var enumerator = shapes.GetEnumerator();
         while (enumerator.MoveNext())
         {
-            // Tuples and deconstruction: C# 7.0
-            // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-tuples#tuple-assignment-and-deconstruction
-            var (id, angles, _) = enumerator.Current;
-            var shape = new Shape(id, angles, _faker.PickRandom(_options.Shapes.Colors).OrNull(_faker, 0.2f));
+            var current = enumerator.Current;
+            // with expression: C# 9.0
+            // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/with-expression
+            var shape = current with {Color = _faker.PickRandom(_options.Shapes.Colors).OrNull(_faker, 0.2f)};
 
             shape.WriteToConsole("Painter");
             acc.Add(shape);
