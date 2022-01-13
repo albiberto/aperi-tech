@@ -45,28 +45,17 @@ public class Printer : IPrinter
 
     private static string GetMessage(Shape shape)
     {
-        string message;
-
-        switch (shape.Angles)
+        // Pattern matching: C# 8.0
+        // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#more-patterns-in-more-places
+        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/pattern-matching
+        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#switch-expressions
+        return shape.Angles switch
         {
             // string interpolation: C# 6.0
             // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated
-            case 0:
-                message = string.Equals(shape.Color, "Red", StringComparison.OrdinalIgnoreCase)
-                    ? $"ID={shape.Id} CIRCLE is red"
-                    : $"ID={shape.Id} CIRCLE is {shape.Color.ToUpperInvariant()}";
-                break;
-            case 4:
-                message = string.Equals(shape.Color, "REd", StringComparison.OrdinalIgnoreCase)
-                    ? $"ID={shape.Id} SQUARE is red"
-                    : $"ID={shape.Id} SQUARE is {shape.Color.ToUpperInvariant()}";
-                break;
-            default:
-                // nameof operator: C# 6.0
-                // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/nameof
-                throw new ArgumentOutOfRangeException(nameof(shape));
-        }
-
-        return message;
+            0 => string.Equals(shape.Color, "Red", StringComparison.OrdinalIgnoreCase) ? $"ID={shape.Id} CIRCLE is red" : $"ID={shape.Id} CIRCLE is {shape.Color.ToUpperInvariant()}",
+            4 => string.Equals(shape.Color, "REd", StringComparison.OrdinalIgnoreCase) ? $"ID={shape.Id} SQUARE is red" : $"ID={shape.Id} SQUARE is {shape.Color.ToUpperInvariant()}",
+            _ => throw new ArgumentOutOfRangeException(nameof(shape))
+        };
     }
 }
