@@ -11,9 +11,12 @@ namespace AperiTech.Domain;
 // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/nullable-reference-types
 // default literal expressions: C# 7.1
 // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/default#default-literal
-public record Shape(int Id, int Angles, string? Color = default)
+public abstract record Shape(int Id, string? Color = default) : IShape
 {
     // init only setters: C# 9.0
     // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9#init-only-setters
     public string Color { get; init; } = Color ?? string.Empty;
 }
+
+public record Circle(int Id, string? Color = default) : Shape(Id, Color);
+public record Square(int Id, string? Color = default) : Shape(Id, Color);

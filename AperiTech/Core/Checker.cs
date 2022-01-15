@@ -14,7 +14,10 @@ public class Checker : IChecker
 {
     private readonly AppOptions _options;
 
-    private readonly IEnumerable<Shape> _validShapes;
+    // omit the type in a new expression: C# 9.0
+    // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9#fit-and-finish-features
+    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/new-operator
+    private readonly List<Shape> _validShapes = new();
 
     public Checker(IOptions<AppOptions> options)
     {
@@ -22,11 +25,18 @@ public class Checker : IChecker
 
         // language integrated query (LINQ): C# 3.0
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/
-        _validShapes =
+        var circles =
             from id in Enumerable.Range(0, _options.Settings.Total)
-            from count in _options.Shapes.Angles
             from color in _options.Shapes.Colors
-            select new Shape(id, count, color);
+            select new Circle(id, color);
+
+        var squares =
+            from id in Enumerable.Range(0, _options.Settings.Total)
+            from color in _options.Shapes.Colors
+            select new Square(id, color);
+
+        _validShapes.AddRange(circles);
+        _validShapes.AddRange(squares);
     }
 
     public IEnumerable<Shape> Check(IEnumerable<Shape> shapes)

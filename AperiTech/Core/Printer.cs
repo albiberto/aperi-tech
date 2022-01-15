@@ -51,14 +51,17 @@ public class Printer : IPrinter
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#switch-expressions
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#property-patterns
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#tuple-patterns
-        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#positional-patterns
+        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#positional-patterns 
+        // Pattern matching enhancement: C# 9.0
+        // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9#pattern-matching-enhancements
+        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns#declaration-and-type-patterns
         return shape switch
         {
             // string interpolation: C# 6.0
             // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated
-            {Angles: 0} when string.Equals(shape.Color, "Red", StringComparison.OrdinalIgnoreCase) => $"ID={shape.Id} CIRCLE is red",
-            (var id, 0, var color) => $"ID={id} CIRCLE is {color!.ToUpperInvariant()}",
-            (var id, 4, "red") => $"ID={id} SQUARE is red",
+            Circle when string.Equals(shape.Color, "Red", StringComparison.OrdinalIgnoreCase) => $"ID={shape.Id} CIRCLE is red",
+            Circle (var id, var color) => $"ID={id} CIRCLE is {color!.ToUpperInvariant()}",
+            Square(var id, "red") => $"ID={id} SQUARE is red",
             { } => $"ID={shape.Id} SQUARE is {shape.Color.ToUpperInvariant()}",
             _ => throw new ArgumentOutOfRangeException(nameof(shape))
         };

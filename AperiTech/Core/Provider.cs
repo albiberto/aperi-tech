@@ -28,7 +28,9 @@ public class Provider : IProvider
 
         foreach (var index in Enumerable.Range(0, _options.Settings.Total))
         {
-            var shape = new Shape(index, _faker.PickRandom(_options.Shapes.Angles));
+            Shape shape = _faker.Random.Bool()
+                ? new Circle(index)
+                : new Square(index);
 
             shape.WriteToConsole("Provider");
             acc.Add(shape);

@@ -15,7 +15,6 @@ public class AppOptions
 public class ShapeOption
 {
     [Required] [MinLength(3)] public IEnumerable<string> Colors { get; set; } = null!;
-    [Required] [MinLength(2)] public IEnumerable<int> Angles { get; set; } = null!;
 }
 
 public class Settings
