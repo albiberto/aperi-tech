@@ -36,6 +36,7 @@ public class Printer : IPrinter
         {
             shape.WriteToConsole("Printer", false);
             LocalPrint(GetMessage(shape));
+            LocalPrint(AnotherPatternMatching(shape));
 
             Console.WriteLine();
 
@@ -65,5 +66,25 @@ public class Printer : IPrinter
             { } => $"ID={shape.Id} SQUARE is {shape.Color.ToUpperInvariant()}",
             _ => throw new ArgumentOutOfRangeException(nameof(shape))
         };
+    }
+
+    private static string AnotherPatternMatching(Shape shape)
+    {
+        //pattern matching: C# 7.0
+        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/pattern-matching
+        // is operator: C# 7.0
+        // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-70
+        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is
+        if (shape is Circle(var id, var color)) return $"ID={id} CIRCLE is {color!.ToLowerInvariant()}";
+
+        // as operator: C# 7.0
+        // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-70
+        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast
+        // nullable reference types (!): C# 8.0
+        // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#nullable-reference-types
+        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-warnings#possible-dereference-of-null
+        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references#nullable-variable-annotations 
+        var square = shape as Square;
+        return $"ID={square!.Id} SQUARE is {square.Color.ToLowerInvariant()}";
     }
 }
