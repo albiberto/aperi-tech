@@ -4,5 +4,5 @@ using Domain;
 
 public interface IPainter
 {
-    IEnumerable<Shape> Paint(IEnumerable<Shape> shapes);
+    IEnumerable<IShape> Paint(IEnumerable<IShape> shapes);
 }

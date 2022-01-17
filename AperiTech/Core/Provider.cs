@@ -22,13 +22,13 @@ public class Provider : IProvider
         _options = options.Value;
     }
 
-    public IEnumerable<Shape> Get()
+    public IEnumerable<IShape> Get()
     {
-        var acc = new List<Shape>();
+        var acc = new List<IShape>();
 
         foreach (var index in Enumerable.Range(0, _options.Settings.Total))
         {
-            Shape shape = _faker.Random.Bool()
+            IShape shape = _faker.Random.Bool()
                 ? new Circle(index)
                 : new Square(index);
 

@@ -19,7 +19,7 @@ public class Printer : IPrinter
         _options = options.Value;
     }
 
-    public void Print(IEnumerable<Shape> shapes)
+    public void Print(IEnumerable<IShape> shapes)
     {
         // local functions: C# 7.0
         // static local functions: C# 8.0
@@ -44,7 +44,7 @@ public class Printer : IPrinter
         }
     }
 
-    private static string GetMessage(Shape shape)
+    private static string GetMessage(IShape shape)
     {
         // Pattern matching: C# 8.0
         // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#more-patterns-in-more-places
@@ -62,20 +62,20 @@ public class Printer : IPrinter
             // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated
             Circle when string.Equals(shape.Color, "Red", StringComparison.OrdinalIgnoreCase) => $"ID={shape.Id} CIRCLE is red",
             Circle (var id, var color) => $"ID={id} CIRCLE is {color!.ToUpperInvariant()}",
-            Square(var id, "red") => $"ID={id} SQUARE is red",
+            ISquare square when string.Equals(shape.Color, "Red", StringComparison.OrdinalIgnoreCase) => $"ID={square.Id} SQUARE is red",
             { } => $"ID={shape.Id} SQUARE is {shape.Color.ToUpperInvariant()}",
             _ => throw new ArgumentOutOfRangeException(nameof(shape))
         };
     }
 
-    private static string AnotherPatternMatching(Shape shape)
+    private static string AnotherPatternMatching(IShape shape)
     {
         //pattern matching: C# 7.0
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/pattern-matching
         // is operator: C# 7.0
         // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-70
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is
-        if (shape is Circle(var id, var color)) return $"ID={id} CIRCLE is {color!.ToLowerInvariant()}";
+        if (shape is ICircle circle) return circle.Message;
 
         // as operator: C# 7.0
         // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-70
@@ -84,7 +84,7 @@ public class Printer : IPrinter
         // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#nullable-reference-types
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-warnings#possible-dereference-of-null
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references#nullable-variable-annotations 
-        var square = shape as Square;
-        return $"ID={square!.Id} SQUARE is {square.Color.ToLowerInvariant()}";
+        var square = shape as ISquare;
+        return square!.Message;
     }
 }

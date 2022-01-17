@@ -4,5 +4,5 @@ using Domain;
 
 public interface IPrinter
 {
-    void Print(IEnumerable<Shape> shapes);
+    void Print(IEnumerable<IShape> shapes);
 }

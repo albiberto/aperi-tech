@@ -18,5 +18,6 @@ public abstract record Shape(int Id, string? Color = default) : IShape
     public string Color { get; init; } = Color ?? string.Empty;
 }
 
-public record Circle(int Id, string? Color = default) : Shape(Id, Color);
-public record Square(int Id, string? Color = default) : Shape(Id, Color);
+public record Circle(int Id, string? Color = default) : Shape(Id, Color), ICircle;
+
+public record Square(int Id, string? Color = default) : Shape(Id, Color), ISquare;

@@ -22,9 +22,9 @@ public class Painter : IPainter
         _options = options.Value;
     }
 
-    public IEnumerable<Shape> Paint(IEnumerable<Shape> shapes)
+    public IEnumerable<IShape> Paint(IEnumerable<IShape> shapes)
     {
-        var acc = new List<Shape>();
+        var acc = new List<IShape>();
 
         // using declaration: C# 8.0
         // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#using-declarations
@@ -32,10 +32,14 @@ public class Painter : IPainter
         using var enumerator = shapes.GetEnumerator();
         while (enumerator.MoveNext())
         {
-            var current = enumerator.Current;
+            var current = enumerator.Current as Shape;
             // with expression: C# 9.0
             // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/with-expression
-            var shape = current with {Color = _faker.PickRandom(_options.Shapes.Colors).OrNull(_faker, 0.2f)};
+            // nullable reference types (!): C# 8.0
+            // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#nullable-reference-types
+            // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-warnings#possible-dereference-of-null
+            // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references#nullable-variable-annotations 
+            IShape shape = current! with {Color = _faker.PickRandom(_options.Shapes.Colors).OrNull(_faker, 0.2f)};
 
             shape.WriteToConsole("Painter");
             acc.Add(shape);

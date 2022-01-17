@@ -17,7 +17,7 @@ public class Checker : IChecker
     // omit the type in a new expression: C# 9.0
     // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9#fit-and-finish-features
     // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/new-operator
-    private readonly List<Shape> _validShapes = new();
+    private readonly List<IShape> _validShapes = new();
 
     public Checker(IOptions<AppOptions> options)
     {
@@ -39,9 +39,9 @@ public class Checker : IChecker
         _validShapes.AddRange(squares);
     }
 
-    public IEnumerable<Shape> Check(IEnumerable<Shape> shapes)
+    public IEnumerable<IShape> Check(IEnumerable<IShape> shapes)
     {
-        var acc = new List<Shape>();
+        var acc = new List<IShape>();
 
         foreach (var shape in shapes)
         foreach (var validShape in _validShapes)

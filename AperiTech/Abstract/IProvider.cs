@@ -4,5 +4,5 @@ using Domain;
 
 public interface IProvider
 {
-    IEnumerable<Shape> Get();
+    IEnumerable<IShape> Get();
 }
