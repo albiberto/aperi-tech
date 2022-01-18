@@ -41,8 +41,6 @@ public class Checker : IChecker
 
     public IEnumerable<IShape> Check(IEnumerable<IShape> shapes)
     {
-        var acc = new List<IShape>();
-
         foreach (var shape in shapes)
         foreach (var validShape in _validShapes)
         {
@@ -53,11 +51,12 @@ public class Checker : IChecker
             if (!validShape.Equals(shape) && validShape != shape) continue;
 
             shape.WriteToConsole("Checker");
-            acc.Add(shape);
+
+            // iterators: C# 2.0
+            // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/iterators
+            yield return shape;
             Thread.Sleep((_options.Settings.Delay));
             break;
         }
-
-        return acc;
     }
 }

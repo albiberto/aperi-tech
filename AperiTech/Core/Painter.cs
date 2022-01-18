@@ -24,8 +24,6 @@ public class Painter : IPainter
 
     public IEnumerable<IShape> Paint(IEnumerable<IShape> shapes)
     {
-        var acc = new List<IShape>();
-
         // using declaration: C# 8.0
         // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#using-declarations
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement
@@ -42,10 +40,11 @@ public class Painter : IPainter
             IShape shape = current! with {Color = _faker.PickRandom(_options.Shapes.Colors).OrNull(_faker, 0.2f)};
 
             shape.WriteToConsole("Painter");
-            acc.Add(shape);
+
+            // iterators: C# 2.0
+            // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/iterators
+            yield return shape;
             Thread.Sleep(_options.Settings.Delay);
         }
-
-        return acc;
     }
 }

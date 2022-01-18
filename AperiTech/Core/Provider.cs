@@ -24,8 +24,6 @@ public class Provider : IProvider
 
     public IEnumerable<IShape> Get()
     {
-        var acc = new List<IShape>();
-
         foreach (var index in Enumerable.Range(0, _options.Settings.Total))
         {
             IShape shape = _faker.Random.Bool()
@@ -33,10 +31,11 @@ public class Provider : IProvider
                 : new Square(index);
 
             shape.WriteToConsole("Provider");
-            acc.Add(shape);
+
+            // iterators: C# 2.0
+            // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/iterators
+            yield return shape;
             Thread.Sleep(_options.Settings.Delay);
         }
-
-        return acc;
     }
 }
