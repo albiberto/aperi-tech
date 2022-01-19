@@ -22,7 +22,7 @@ public class Painter : IPainter
         _options = options.Value;
     }
 
-    public IEnumerable<IShape> Paint(IEnumerable<IShape> shapes)
+    public async Task<IEnumerable<IShape>> PaintAsync(IEnumerable<IShape> shapes)
     {
         // using declaration: C# 8.0
         // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#using-declarations
@@ -44,7 +44,7 @@ public class Painter : IPainter
             // iterators: C# 2.0
             // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/iterators
             yield return shape;
-            Thread.Sleep(_options.Settings.Delay);
+            await Task.Delay(_options.Settings.Delay);
         }
     }
 }

@@ -39,7 +39,7 @@ public class Checker : IChecker
         _validShapes.AddRange(squares);
     }
 
-    public IEnumerable<IShape> Check(IEnumerable<IShape> shapes)
+    public async Task<IEnumerable<IShape>> CheckAsync(IEnumerable<IShape> shapes)
     {
         foreach (var shape in shapes)
         foreach (var validShape in _validShapes)
@@ -55,7 +55,7 @@ public class Checker : IChecker
             // iterators: C# 2.0
             // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/iterators
             yield return shape;
-            Thread.Sleep((_options.Settings.Delay));
+            await Task.Delay((_options.Settings.Delay));
             break;
         }
     }

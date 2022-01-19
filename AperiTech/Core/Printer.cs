@@ -19,7 +19,7 @@ public class Printer : IPrinter
         _options = options.Value;
     }
 
-    public void Print(IEnumerable<IShape> shapes)
+    public async Task PrintAsync(IEnumerable<IShape> shapes)
     {
         // local functions: C# 7.0
         // static local functions: C# 8.0
@@ -40,7 +40,7 @@ public class Printer : IPrinter
 
             Console.WriteLine();
 
-            Thread.Sleep(_options.Settings.Delay);
+            await Task.Delay(_options.Settings.Delay);
         }
     }
 

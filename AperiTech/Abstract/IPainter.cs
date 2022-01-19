@@ -4,5 +4,5 @@ using Domain;
 
 public interface IPainter
 {
-    IEnumerable<IShape> Paint(IEnumerable<IShape> shapes);
+    Task<IEnumerable<IShape>> PaintAsync(IEnumerable<IShape> shapes);
 }

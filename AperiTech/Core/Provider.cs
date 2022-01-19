@@ -22,7 +22,7 @@ public class Provider : IProvider
         _options = options.Value;
     }
 
-    public IEnumerable<IShape> Get()
+    public async Task<IEnumerable<IShape>> GetAsync()
     {
         foreach (var index in Enumerable.Range(0, _options.Settings.Total))
         {
@@ -35,7 +35,7 @@ public class Provider : IProvider
             // iterators: C# 2.0
             // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/iterators
             yield return shape;
-            Thread.Sleep(_options.Settings.Delay);
+            await Task.Delay(_options.Settings.Delay);
         }
     }
 }

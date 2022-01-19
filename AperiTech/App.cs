@@ -33,26 +33,26 @@ public class App
         _delay = options.Value.Settings.Delay;
     }
 
-    public void Run()
+    public async Task RunAsync()
     {
-        CountDown(Provider);
-        var shapes = _provider.Get();
-        Complete(Provider);
+        await CountDownAsync(Provider);
+        var shapes = await _provider.GetAsync();
+        await CompleteAsync(Provider);
 
-        CountDown(Painter);
-        var painted = _painter.Paint(shapes);
-        Complete(Painter);
+        await CountDownAsync(Painter);
+        var painted = await _painter.PaintAsync(shapes);
+        await CompleteAsync(Painter);
 
-        CountDown(Checker);
-        var valid = _checker.Check(painted);
-        Complete(Checker);
+        await CountDownAsync(Checker);
+        var valid = await _checker.CheckAsync(painted);
+        await CompleteAsync(Checker);
 
-        CountDown(Printer);
-        _printer.Print(valid);
-        Complete(Printer);
+        await CountDownAsync(Printer);
+        await _printer.PrintAsync(valid);
+        await CompleteAsync(Printer);
     }
 
-    private void CountDown(string message)
+    private async Task CountDownAsync(string message)
     {
         Console.WriteLine();
         Console.Write("{0} launching ", message);
@@ -60,7 +60,7 @@ public class App
         foreach (var _ in Enumerable.Range(0, 3))
         {
             Console.Write(".");
-            Thread.Sleep(_delay);
+            await Task.Delay(_delay);
         }
 
         Console.WriteLine();
@@ -72,7 +72,7 @@ public class App
         Console.WriteLine();
     }
 
-    private void Complete(string message)
+    private async Task CompleteAsync(string message)
     {
         Console.WriteLine();
         // string interpolation: C# 6.0
@@ -82,6 +82,6 @@ public class App
         Console.WriteLine("{0} completed at: {1:O}", message, DateTime.Now);
         Console.WriteLine();
 
-        Thread.Sleep(_delay * 2);
+        await Task.Delay(_delay * 2);
     }
 }

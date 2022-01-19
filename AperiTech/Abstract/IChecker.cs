@@ -4,5 +4,5 @@ using Domain;
 
 public interface IChecker
 {
-    IEnumerable<IShape> Check(IEnumerable<IShape> shapes);
+    Task<IEnumerable<IShape>> CheckAsync(IEnumerable<IShape> shapes);
 }

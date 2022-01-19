@@ -33,30 +33,32 @@ using var host = Host.CreateDefaultBuilder()
 var app = host.Services.GetRequiredService<App>();
 var options = host.Services.GetService<IOptions<AppOptions>>();
 
-Welcome();
-app.Run();
-Wait();
-SeeYouSoon();
+// asynchronous members: C# 5.0
+// DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history
+await WelcomeAsync();
+await app.RunAsync();
+await WaitAsync();
+await SeeYouSoonAsync();
 
-void Welcome()
+async Task WelcomeAsync()
 {
     Console.WriteLine("Welcome to AperiTech");
     Console.WriteLine("Renew your .NET");
 
-    Thread.Sleep(GetDelay() * 4);
+    await Task.Delay(GetDelay() * 4);
     Console.Clear();
-    Thread.Sleep(GetDelay() * 2);
+    await Task.Delay(GetDelay() * 2);
 }
 
-void Wait()
+async Task WaitAsync()
 {
     Console.WriteLine("Press any key to continue.");
     Console.ReadKey();
     Console.Clear();
-    Thread.Sleep(GetDelay());
+    await Task.Delay(GetDelay());
 }
 
-void SeeYouSoon()
+async Task SeeYouSoonAsync()
 {
     Console.WriteLine("See you soon!");
     Console.WriteLine();
@@ -65,7 +67,7 @@ void SeeYouSoon()
     Console.WriteLine(" Gruppo Euris ");
     Console.WriteLine("<3 <3 <3 <3 <3");
 
-    Thread.Sleep(GetDelay() * 8);
+    await Task.Delay(GetDelay() * 8);
     Console.Clear();
 }
 
