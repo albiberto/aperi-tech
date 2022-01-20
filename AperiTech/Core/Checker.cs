@@ -39,9 +39,16 @@ public class Checker : IChecker
         _validShapes.AddRange(squares);
     }
 
-    public async Task<IEnumerable<IShape>> CheckAsync(IEnumerable<IShape> shapes)
+    // asynchronous streams: C# 8.0
+    // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#asynchronous-streams
+    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/generate-consume-asynchronous-stream
+    public async IAsyncEnumerable<IShape> CheckAsync(IAsyncEnumerable<IShape> shapes)
     {
-        foreach (var shape in shapes)
+        // await foreach: C# 8.0
+        // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#asynchronous-streams
+        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#await-foreach
+        // DOC: https://docs.microsoft.com/en-us/archive/msdn-magazine/2019/november/csharp-iterating-with-async-enumerables-in-csharp-8
+        await foreach (var shape in shapes)
         foreach (var validShape in _validShapes)
         {
             // equality comparison: C# 1.0

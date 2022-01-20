@@ -19,7 +19,7 @@ public class Printer : IPrinter
         _options = options.Value;
     }
 
-    public async Task PrintAsync(IEnumerable<IShape> shapes)
+    public async Task PrintAsync(IAsyncEnumerable<IShape> shapes)
     {
         // local functions: C# 7.0
         // static local functions: C# 8.0
@@ -32,7 +32,11 @@ public class Printer : IPrinter
             Console.WriteLine();
         }
 
-        foreach (var shape in shapes)
+        // await foreach: C# 8.0
+        // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#asynchronous-streams
+        // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#await-foreach
+        // DOC: https://docs.microsoft.com/en-us/archive/msdn-magazine/2019/november/csharp-iterating-with-async-enumerables-in-csharp-8
+        await foreach (var shape in shapes)
         {
             shape.WriteToConsole("Printer", false);
             LocalPrint(GetMessage(shape));

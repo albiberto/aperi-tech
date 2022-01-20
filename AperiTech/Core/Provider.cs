@@ -22,7 +22,10 @@ public class Provider : IProvider
         _options = options.Value;
     }
 
-    public async Task<IEnumerable<IShape>> GetAsync()
+    // asynchronous streams: C# 8.0
+    // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#asynchronous-streams
+    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/generate-consume-asynchronous-stream
+    public async IAsyncEnumerable<IShape> GetAsync()
     {
         foreach (var index in Enumerable.Range(0, _options.Settings.Total))
         {

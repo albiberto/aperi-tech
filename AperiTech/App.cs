@@ -36,15 +36,15 @@ public class App
     public async Task RunAsync()
     {
         await CountDownAsync(Provider);
-        var shapes = await _provider.GetAsync();
+        var shapes = _provider.GetAsync();
         await CompleteAsync(Provider);
 
         await CountDownAsync(Painter);
-        var painted = await _painter.PaintAsync(shapes);
+        var painted = _painter.PaintAsync(shapes);
         await CompleteAsync(Painter);
 
         await CountDownAsync(Checker);
-        var valid = await _checker.CheckAsync(painted);
+        var valid = _checker.CheckAsync(painted);
         await CompleteAsync(Checker);
 
         await CountDownAsync(Printer);

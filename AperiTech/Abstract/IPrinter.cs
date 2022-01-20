@@ -4,5 +4,5 @@ using Domain;
 
 public interface IPrinter
 {
-    Task PrintAsync(IEnumerable<IShape> shapes);
+    Task PrintAsync(IAsyncEnumerable<IShape> shapes);
 }

@@ -22,13 +22,16 @@ public class Painter : IPainter
         _options = options.Value;
     }
 
-    public async Task<IEnumerable<IShape>> PaintAsync(IEnumerable<IShape> shapes)
+    // asynchronous streams: C# 8.0
+    // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#asynchronous-streams
+    // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/generate-consume-asynchronous-stream
+    public async IAsyncEnumerable<IShape> PaintAsync(IAsyncEnumerable<IShape> shapes)
     {
         // using declaration: C# 8.0
         // NEW: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#using-declarations
         // DOC: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement
-        using var enumerator = shapes.GetEnumerator();
-        while (enumerator.MoveNext())
+        await using var enumerator = shapes.GetAsyncEnumerator();
+        while (await enumerator.MoveNextAsync())
         {
             var current = enumerator.Current as Shape;
             // with expression: C# 9.0

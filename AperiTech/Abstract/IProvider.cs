@@ -4,5 +4,5 @@ using Domain;
 
 public interface IProvider
 {
-    Task<IEnumerable<IShape>> GetAsync();
+    IAsyncEnumerable<IShape> GetAsync();
 }
